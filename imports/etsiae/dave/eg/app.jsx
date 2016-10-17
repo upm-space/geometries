@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 export default class App extends Component {
 
     componentDidMount() {
-        let dataset = [{x:150,radius:20},{x:150,radius:40},{x:150,radius:60},
+        let dataset = [{x:150,radius:10},{x:150,radius:20},{x:150,radius:40},{x:150,radius:60},
             {x:150,radius:80},{x:150,radius:100},{x:150,radius:120}];
 
         let sampleSVG = d3.select("#canvas-svg")
