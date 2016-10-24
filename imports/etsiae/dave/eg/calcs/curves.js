@@ -1,7 +1,7 @@
 import Point from './../geometry/point.js';
 
 export default class Curves {
-    toD3Bezier(controlPoints,delta_t){
+    toD3Bezier_old(controlPoints,delta_t){
         let curvePoints = [];
         if(!delta_t){
             delta_t = 100;
@@ -18,5 +18,31 @@ export default class Curves {
         }
         return curvePoints;
     }
+
+    toD3Bezier(controlPoints,delta_t){
+        let curvePoints = [];
+        let n = controlPoints.length;
+        let t,i;
+        for(t = 0; t <= 1; t += delta_t){
+            let x=0,y=0;
+            for(i = 0; i < n ; i++){
+                x = x + (this.sFact(n)/(this.sFact(i)*this.sFact(n-i)))*Math.pow(t,i)*Math.pow((1-t),(n-i))*controlPoints[i].x;
+                y = y + (this.sFact(n)/(this.sFact(i)*this.sFact(n-i)))*Math.pow(t,i)*Math.pow((1-t),(n-i))*controlPoints[i].y;
+            }
+            let point = new Point(x,y,0);
+            let pointJson = point.toJson2D();
+            curvePoints.push(pointJson);
+        }
+        return curvePoints;
+    }
+
+    sFact(num)
+    {
+        var rval=1;
+        for (var i = 2; i <= num; i++)
+            rval = rval * i;
+        return rval;
+    }
+
 
 }

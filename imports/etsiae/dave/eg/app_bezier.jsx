@@ -7,9 +7,14 @@ export default class App extends Component {
 
     constructor(props){
         super(props);
-        this.p0 = new Point(50, 50, 0,1);
-        this.p1 = new Point(250, 50, 0,2);
-        this.p2 = new Point(250, 250, 0,3);
+        //this.p0 = new Point(50, 50, 0,1);
+        //this.p1 = new Point(250, 50, 0,2);
+        //this.p2 = new Point(250, 250, 0,3);
+        this.p0 = new Point(100, 400, 0,1);
+        this.p1 = new Point(300, 200, 0,2);
+        this.p2 = new Point(400, 400, 0,3);
+        this.p3 = new Point(500, 200, 0,2);
+        this.p4 = new Point(700, 400, 0,3);
         this.controlPoints = null;
         let canvasSVG = null;
 
@@ -21,12 +26,13 @@ export default class App extends Component {
 
         //let p3 = new Point(50, 250, 0);
 
-        let controlPoints = [this.p0.toJson2D(), this.p1.toJson2D(), this.p2.toJson2D()];
+        let controlPoints = [this.p0.toJson2D(), this.p1.toJson2D(), this.p2.toJson2D(),this.p3.toJson2D(),this.p4.toJson2D()];
+        //let controlPoints = [this.p0.toJson2D(), this.p1.toJson2D(), this.p2.toJson2D()];
 
         this.canvasSVG = d3.select("#canvas-svg")
             .append("svg")
-            .attr("width", 500)
-            .attr("height", 300);
+            .attr("width", 750)
+            .attr("height", 600);
 
         this.controlPoints = this.canvasSVG.selectAll("circle")
             .data(controlPoints)
@@ -44,7 +50,9 @@ export default class App extends Component {
 
 
         let curve = new Curve();
-        let QPoints = curve.toD3Bezier([this.p0,this.p1,this.p2],1000);
+        console.log(curve.sFact(0));
+        let QPoints = curve.toD3Bezier([this.p0,this.p1,this.p2,this.p3,this.p4],0.01);
+        //let QPoints = curve.toD3Bezier([this.p0,this.p1,this.p2],0.01);
 
         this.canvasSVG.selectAll("circle")
             .data(QPoints)
