@@ -36,7 +36,7 @@ export default class App extends Component {
         let curve = new Curve();
         // console.log(curve.sFact(0));
         // console.log(curve.sBin(2,1));
-        let QPoints = curve.toD3Bezier([this.p0,this.p1,this.p2,this.p3,this.p4],0.001);
+        let QPoints = curve.toD3Bezier([this.p0,this.p1,this.p2,this.p3,this.p4],0.01);
 
         this.canvasSVG.selectAll("circle")
             .data(QPoints)
@@ -45,11 +45,31 @@ export default class App extends Component {
             .attr("r", 0.5)
             .attr("cx", function(d){return d.x})
             .attr("cy", function(d){return d.y});
+
+        // pintamos con método de D3
+        this.canvasSVG.append("path")
+            .datum(controlPoints)
+            .attr("class", "line")
+            .style("stroke",  "#ff0000")
+            .style("fill",  "none")
+            .attr("id", 'tag1') // assign ID
+            .attr("d", d3.line()
+                .curve(d3.curveBasis)
+                .x(function(d) { return (d.x); })
+                .y(function(d) { return (d.y); })
+            );
+
+
+
     }
 
     render() {
         return (
-            <div id="canvas-svg"></div>
+            <div>
+                <div id="canvas-svg"></div>
+                <label htmlFor="interpolate">Interpolate:</label>
+                <select id="interpolate"></select><br/>
+            </div>
         );
     }
 }
